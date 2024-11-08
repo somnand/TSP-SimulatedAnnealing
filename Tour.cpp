@@ -27,6 +27,16 @@ double Tour::getTotalDistance()
     return distance;
 }
 
+Point Tour::getPoint(int index)
+{
+    return path[index];
+}
+
+void Tour::setPoint(int index,Point p)
+{
+    path[index]=p;
+}
+
 double Tour::eucledianDistance(Point p1,Point p2)
 {
     double distance = sqrt(pow(p1.getX() - p2.getX(),2) + pow(p1.getY() - p2.getY(),2));

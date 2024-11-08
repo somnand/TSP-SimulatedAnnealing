@@ -1,12 +1,13 @@
 #include<iostream>
 #include<fstream>
 #include<vector>
+#include<random>
 #include"FileUtils.h"
 #include"Tour.h"
 using namespace std;
 
 #define INIT_TEMP 10000 //No of Iterations the program runs for
-#define COOLING_RATE 0.003
+#define COOLING_RATE 0.3 //Only 0.3 is working as of now but gives wrong answer
 
 int main()
 {
@@ -24,14 +25,27 @@ int main()
     double coolingRate = COOLING_RATE;
     cout<<"Temp "<<temp<<endl;
     cout<<"Cooling Rate "<<coolingRate<<endl;
-    // for(int i=0;i<points.size();i++)
-    //     cout<<points[i].toString()<<" ";
-
-    
-    best = current.getTour();
-    
     cout<<"Current Distance : "<<current.getTotalDistance()<<endl;
-    cout<<"Path : "<<current.getTour()<<endl;
+    best = current.getTour();
+    //Loop until the system has cooled and optimal path is found
+    while(temp > 1.0)
+    {
+        int firstIndexToSwap = rand()%(current.getTour().size()+1);
+        int nextIndexToSwap = rand()%(current.getTour().size()+1);
+
+        while(firstIndexToSwap==nextIndexToSwap) { nextIndexToSwap = rand()%(current.getTour().size()+1); }
+        //Get points and swap them
+        Point p1 = current.getPoint(firstIndexToSwap);
+        Point p2 = current.getPoint(nextIndexToSwap);
+
+        current.setPoint(firstIndexToSwap,p2);
+        current.setPoint(nextIndexToSwap,p1);
+        //Checking distance and setting best 
+        if(best.getTotalDistance()>current.getTotalDistance())
+            best = current;
+
+        temp*= 1-coolingRate;
+    }
     cout<<"Best Distance : "<<best.getTotalDistance()<<endl;
     cout<<"Project End !! "<<endl;
 

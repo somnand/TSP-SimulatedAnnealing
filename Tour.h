@@ -14,5 +14,6 @@ class Tour
     vector<Point> getTour();
     double getTotalDistance();    
     double eucledianDistance(Point p1,Point p2);
-
+    Point getPoint(int index);
+    void setPoint(int index,Point p);
 };
